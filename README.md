@@ -3,7 +3,7 @@
 
 1. git cloneを行う  
 ```
-https://github.com/chikamasuda/project_management_system_laravel.git
+git clone https://github.com/chikamasuda/project_management_system_laravel.git
 ```
 
 2. Composer依存関係のインストール  
