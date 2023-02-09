@@ -20,7 +20,18 @@ docker run --rm \
 ```
 ./vendor/bin/sail up -d
 ```
-4. Dockerコンテナを停止する場合
+
+4. envファイル作成  
+```
+cp .env.example .env
+```
+
+5. 暗号キー設定
+```
+./vendor/bin/sail artisan key:generate
+```
+
+6. Dockerコンテナを停止する場合
 ```
 ./vendor/bin/sail down
 ```
