@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('todo_lists', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id');
             $table->boolean('status')->comment('現在の状態');
             $table->string('title');
             $table->date('deadline_date')->comment('期限日')->nullable();

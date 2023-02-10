@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('project_id');
+            $table->foreignId('project_id');
             $table->tinyInteger('status')->comment('現在の状態');
             $table->string('content')->comment('売上内容');
             $table->integer('amount')->comment('金額');

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('client_id');
+            $table->foreignId('client_id');
             $table->tinyInteger('status')->comment('現在の状態');
             $table->string('name');
             $table->string('image_url')->comment('アイコン画像URL')->nullable();

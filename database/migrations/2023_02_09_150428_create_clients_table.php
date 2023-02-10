@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('user_id');
+            $table->foreignId('user_id');
             $table->tinyInteger('status')->comment('現在の状態');
             $table->string('name');
             $table->string('address')->nullable();
