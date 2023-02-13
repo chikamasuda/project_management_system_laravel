@@ -17,6 +17,7 @@ class AuthController extends Controller
      * ログイン
      *
      * @param LoginRequest $request
+     * @param LoginUseCase $useCase
      * @return JsonResponse
      */
     public function login(LoginRequest $request, LoginUseCase $useCase): JsonResponse
@@ -35,6 +36,7 @@ class AuthController extends Controller
      * ログアウト
      *
      * @param Request $request
+     * @param LogoutUseCase $useCase
      * @return JsonResponse
      */
     public function logout(Request $request, LogoutUseCase $useCase): JsonResponse
@@ -50,8 +52,9 @@ class AuthController extends Controller
     }
 
     /**
-     * ユーザー情報を返す
+     * ユーザー情報取得
      *
+     * @param GetUserInformationUseCase $useCase
      * @return JsonResponse
      */
     public function me(GetUserInformationUseCase $useCase): JsonResponse
