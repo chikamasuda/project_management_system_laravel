@@ -1,7 +1,7 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+/** 認証前 */
+//ログイン
+Route::post('/users/login', [AuthController::class, 'login']);
+
+/** 認証後 */
+Route::group(['middleware' => ['auth:api']], function () {
+    //ユーザー情報取得
+    Route::get('/users', [AuthController::class, 'me']);
+    //ログアウト
+    Route::post('/users/logout', [AuthController::class, 'logout']);
 });
