@@ -35,3 +35,10 @@ cp .env.example .env
 ```
 ./vendor/bin/sail down
 ```
+
+## Laravel Passportインストール
+```bash
+composer require laravel/passport
+./vendor/bin/sail artisan passport:install
+./vendor/bin/sail artisan passport:client --password
+```
