@@ -17,6 +17,8 @@ use App\Http\Controllers\AuthController;
 /** 認証前 */
 //ログイン
 Route::post('/users/login', [AuthController::class, 'login']);
+//新規登録
+Route::post('/users/register', [AuthController::class, 'register']);
 
 /** 認証後 */
 Route::group(['middleware' => ['auth:api']], function () {

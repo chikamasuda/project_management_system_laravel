@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\LoginRequest;
-use App\Models\User;
+use App\Http\Requests\RegisterRequest;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use App\UseCase\Auth\Login as LoginUseCase;
 use App\UseCase\Auth\Logout as LogoutUseCase;
 use App\UseCase\Auth\GetUserInformation as GetUserInformationUseCase;
+use App\UseCase\Auth\Register as RegisterUseCase;
 
 class AuthController extends Controller
 {
@@ -64,6 +66,28 @@ class AuthController extends Controller
             return response()->json(['user' => $user], 200);
         } catch (\Throwable $e) {
             // 失敗した原因をログに残しフロントにエラーを通知
+            Log::error($e);
+            throw $e;
+        }
+    }
+
+    /**
+     * 新規登録処理
+     *
+     * @param RegisterRequest $request
+     * @param RegisterUseCase $useCase
+     * @return JsonResponse
+     */
+    public function register(RegisterRequest $request, RegisterUseCase $useCase): JsonResponse
+    {
+        try {
+            DB::beginTransaction();
+            $user = $useCase->invoke($request);
+            DB::commit();
+            return response()->json(['user' => $user['user'], 'token' => $user['token']], 201);
+        } catch (\Throwable $e) {
+            // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
+            DB::rollback();
             Log::error($e);
             throw $e;
         }
