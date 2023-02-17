@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +25,8 @@ Route::post('/users/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:api']], function () {
     //ユーザー情報取得
     Route::get('/users', [AuthController::class, 'me']);
+    //ホーム用ユーザー情報取得
+    Route::get('/home/index', [HomeController::class, 'index']);
     //ログアウト
     Route::post('/users/logout', [AuthController::class, 'logout']);
 });
