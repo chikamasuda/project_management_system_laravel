@@ -18,7 +18,7 @@ class GetUserInformation
             ->join('clients', 'projects.client_id', '=', 'clients.id')
             ->select('projects.name as project_name', 'clients.name as client_name', 'projects.status as status', 'end_date')
             ->where('user_id', auth()->user()->id)
-            ->where('projects.status', '!=', config('const.projects.end'))
+            ->where('projects.status', '!=', config('const.projects.status.end'))
             ->get();
 
         $todo_lists = TodoList::where('user_id', auth()->user()->id)
