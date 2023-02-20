@@ -156,7 +156,10 @@ return [
     'attributes' => [
         'name'     => '名前',
         'email'    => 'Eメール',
-        'password' => 'パスワード'
+        'password' => 'パスワード',
+        'image'    => '画像',
+        'status'   => 'ステータス',
+        'tags.*'     => 'タグ',
+        'site_url' => 'サイトURL'
     ],
-
 ];
