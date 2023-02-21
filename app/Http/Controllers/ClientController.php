@@ -8,20 +8,24 @@ use App\Http\Requests\ClientRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
+use App\UseCase\Client\Index as IndexUseCase;
+use App\UseCase\Client\Store as StoreUseCase;
+use App\UseCase\Client\Show as ShowUseCase;
+use App\UseCase\Client\Update as UpdateuseCase;
+use App\UseCase\Client\Destroy as DestroyuseCase;
 
 class ClientController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * ユーザーの顧客情報取得
+     *
+     * @param IndexUseCase $useCase
+     * @return JsonResponse
      */
-    public function index(): JsonResponse
+    public function index(IndexUseCase $useCase): JsonResponse
     {
         try {
-            $clients = Client::with('tags')
-                ->where('user_id', auth()->user()->id)
-                ->get();
-
+            $clients = $useCase->invoke();
             return response()->json(['clients' => $clients], 200);
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
@@ -31,40 +35,19 @@ class ClientController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * 顧客情報作成
+     *
+     * @param CreateUseCase $useCase
+     * @param ClientRequest $request
+     * @return JsonResponse
      */
-    public function store(ClientRequest $request): JsonResponse
+    public function store(StoreUseCase $useCase, ClientRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
-
-            //s3にアップして保存
-            if ($request->file('image')) {
-                $image_name = $request->file('image')->getClientOriginalName();
-                $path = Storage::disk('s3')->putFile('', $request->file('image'), 'public');
-                $request->file('image')->storeAs('/', $image_name, 's3');
-            }
-
-            $client = Client::create([
-                'name'      => $request->name,
-                'user_id'   => auth()->user()->id,
-                'email'     => $request->email,
-                "image_url" => $request->file('image') ? Storage::disk('s3')->url($path) . $image_name : null,
-                "address"   => $request->address,
-                "status"    => $request->status,
-                "site_url"  => $request->site_url,
-                "memo"      => $request->memo,
-            ]);
-
-            if (isset($request->tags)) {
-                foreach ($request->tags as $tag_name) {
-                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                    $client->tags()->attach($tag);
-                }
-            }
-
+            $client = $useCase->invoke($request);
             DB::commit();
-            return response()->json(['client' => $client, 'tag' => $tag], 201);
+            return response()->json(['client' => $client['client'], 'tag' => $client['tag']], 201);
         } catch (\Throwable $e) {
             // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
             DB::rollback();
@@ -74,14 +57,16 @@ class ClientController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * ユーザーの顧客詳細情報取得
+     *
+     * @param ShowUseCase $useCase
+     * @param Client $client
+     * @return JsonResponse
      */
-    public function show(Client $client): JsonResponse
+    public function show(ShowUseCase $useCase, Client $client): JsonResponse
     {
         try {
-            $client = Client::with('tags')
-                ->where('id', $client->id)
-                ->first();
+            $client = $useCase->invoke($client);
             return response()->json(['client' => $client], 200);
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
@@ -91,43 +76,20 @@ class ClientController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * 顧客情報更新
+     *
+     * @param UpdateUseCase $useCase
+     * @param ClientRequest $request
+     * @param Client $client
+     * @return JsonResponse
      */
-    public function update(ClientRequest $request, Client $client): JsonResponse
+    public function update(UpdateUseCase $useCase, ClientRequest $request, Client $client): JsonResponse
     {
         try {
             DB::beginTransaction();
-
-            //s3にアップして保存
-            if ($request->file('image')) {
-                $image_name = $request->file('image')->getClientOriginalName();
-                $path = Storage::disk('s3')->putFile('', $request->file('image'), 'public');
-                $request->file('image')->storeAs('/', $image_name, 's3');
-            }
-
-            $update = [
-                "name"      => $request->name,
-                'user_id'   => auth()->user()->id,
-                'email'     => $request->email,
-                "image_url" => $request->file('image') ? Storage::disk('s3')->url($path) . $image_name : null,
-                "address"   => $request->address,
-                "status"    => $request->status,
-                "site_url"  => $request->site_url,
-                "memo"      => $request->memo,
-            ];
-
-            $update_client = Client::where('id', $client->id)->update($update);
-
+            $update_client = $useCase->invoke($request, $client);
             if (!$update_client) {
                 return response()->json(['message' => 'Not Found'], 404);
-            }
-
-            if (isset($request->tags)) {
-                foreach ($request->tags as $tag_name) {
-                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                    $client = Client::where('id', $client->id)->first();
-                    $client->tags()->sync($tag, false);
-                }
             }
             DB::commit();
             return response()->json(['message' => 'Updated successfully'], 200);
@@ -140,14 +102,17 @@ class ClientController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * 顧客情報削除
+     *
+     * @param DestroyuseCase $useCase
+     * @param Client $client
+     * @return JsonResponse
      */
-    public function destroy(Client $client)
+    public function destroy(DestroyuseCase $useCase, Client $client): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $client = Client::where('id', $client->id)->delete();
-
+            $client = $useCase->invoke($client);
             if (!$client) {
                 return response()->json(['message' => 'Not Found'], 404);
             }
