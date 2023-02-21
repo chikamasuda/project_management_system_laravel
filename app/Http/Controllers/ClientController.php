@@ -116,6 +116,7 @@ class ClientController extends Controller
             if (!$client) {
                 return response()->json(['message' => 'Not Found'], 404);
             }
+            DB::commit();
             return response()->json(['message' => 'Deleted successfully'], 200);
         } catch (\Throwable $e) {
             // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
