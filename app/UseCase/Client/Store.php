@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Tag;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Store
 {
@@ -29,11 +30,21 @@ class Store
             "memo"      => $request->memo,
         ]);
 
+        $tag_array = [];
+        $tag = [];
+
         if (isset($request->tags)) {
             foreach ($request->tags as $tag_name) {
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                $client->tags()->attach($tag);
+                if ($tag_name) {
+                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                    array_push($tag_array, $tag->id);
+                }
             }
+        }
+
+        if (!empty($tag_array)) {
+            $client = Client::where('id', $client->id)->first();
+            $client->tags()->attach($tag_array);
         }
 
         return [

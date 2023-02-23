@@ -28,7 +28,9 @@ class ClientRequest extends FormRequest
     {
         return [
             'name'     => 'required|max:191',
-            'email'    => 'email|unique:clients|unique:clients,email,' . $this->id . ',id',
+            'email'    => ['email', Rule::unique('clients', 'email')->ignore($this->client->id ?? null)->where(function ($query) {
+                return $query->whereNull('deleted_at');
+            })],
             'status'   => 'required',
             'image'    => 'max:1024|mimes:jpg,jpeg,png,gif',
             'tags'     => 'array',

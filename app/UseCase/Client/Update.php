@@ -38,13 +38,19 @@ class Update
 
         $update_client = Client::where('id', $client->id)->update($update);
 
-        if (isset($request->tags)) {
+        $tag_array = [];
+        $tag = [];
+
+        if ($request->tags)
             foreach ($request->tags as $tag_name) {
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                $client = Client::where('id', $client->id)->first();
-                $client->tags()->sync($tag, false);
+                if ($tag_name) {
+                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                    array_push($tag_array, $tag->id);
+                }
             }
-        }
+
+        $client = Client::where('id', $client->id)->first();
+        $client->tags()->sync($tag_array);
 
         return $update_client;
     }
