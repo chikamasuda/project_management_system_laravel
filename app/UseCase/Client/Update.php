@@ -41,13 +41,12 @@ class Update
         $tag_array = [];
         $tag = [];
 
-        if ($request->tags)
-            foreach ($request->tags as $tag_name) {
-                if ($tag_name) {
-                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                    array_push($tag_array, $tag->id);
-                }
+        foreach ($request->tags as $tag_name) {
+            if ($tag_name) {
+                $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                array_push($tag_array, $tag->id);
             }
+        }
 
         $client = Client::where('id', $client->id)->first();
         $client->tags()->sync($tag_array);
