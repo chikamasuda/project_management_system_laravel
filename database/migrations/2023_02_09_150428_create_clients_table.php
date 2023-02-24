@@ -22,6 +22,7 @@ return new class extends Migration
             $table->text('memo')->nullable()->comment('備考');
             $table->string('email')->nullable()->unique();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

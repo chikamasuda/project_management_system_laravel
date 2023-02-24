@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ClientController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,4 +30,13 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::get('/home/index', [HomeController::class, 'index']);
     //ログアウト
     Route::post('/users/logout', [AuthController::class, 'logout']);
+
+    //CRUD機能
+    Route::apiResources([
+        'clients' => ClientController::class,
+    ]);
+
+    //顧客管理
+    Route::controller(ClientController::class)->group(function () {
+    });
 });
