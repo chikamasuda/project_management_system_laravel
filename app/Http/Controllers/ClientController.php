@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
-use App\Models\Tag;
+use Illuminate\Http\Request;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -13,6 +13,7 @@ use App\UseCase\Client\Store as StoreUseCase;
 use App\UseCase\Client\Show as ShowUseCase;
 use App\UseCase\Client\Update as UpdateuseCase;
 use App\UseCase\Client\Destroy as DestroyuseCase;
+use App\UseCase\Client\Search as SearchuseCase;
 
 class ClientController extends Controller
 {
@@ -121,6 +122,24 @@ class ClientController extends Controller
         } catch (\Throwable $e) {
             // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
             DB::rollback();
+            Log::error($e);
+            throw $e;
+        }
+    }
+
+    /**
+     * ユーザーの顧客情報検索
+     *
+     * @param IndexUseCase $useCase
+     * @return JsonResponse
+     */
+    public function search(SearchUseCase $useCase, Request $request): JsonResponse
+    {
+        try {
+            $clients = $useCase->invoke($request);
+            return response()->json(['clients' => $clients], 200);
+        } catch (\Throwable $e) {
+            //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);
             throw $e;
         }

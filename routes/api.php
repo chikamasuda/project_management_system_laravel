@@ -31,12 +31,14 @@ Route::group(['middleware' => ['auth:api']], function () {
     //ログアウト
     Route::post('/users/logout', [AuthController::class, 'logout']);
 
+    //顧客管理
+    Route::controller(ClientController::class)->group(function () {
+        //顧客検索
+        Route::get('/clients/search', 'search');
+    });
+
     //CRUD機能
     Route::apiResources([
         'clients' => ClientController::class,
     ]);
-
-    //顧客管理
-    Route::controller(ClientController::class)->group(function () {
-    });
 });
