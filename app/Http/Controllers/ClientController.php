@@ -159,7 +159,7 @@ class ClientController extends Controller
             $csv_data = $useCase->invoke($request);
             return response()->make($csv_data['csv'], 200, $csv_data['headers']);
         } catch (\Throwable $e) {
-            // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
+            //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);
             throw $e;
         }
