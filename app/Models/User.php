@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class User extends Authenticatable
 {
@@ -42,12 +43,22 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function clients()
+    /**
+     * 顧客テーブルとのリレーション
+     *
+     * @return HasMany
+     */
+    public function clients(): HasMany
     {
         return $this->hasMany(Client::class);
     }
 
-    public function todo_lists()
+    /**
+     * todo_listsテーブルとのリレーション
+     *
+     * @return HasMany
+     */
+    public function todo_lists(): HasMany
     {
         return $this->hasMany(TodoList::class);
     }

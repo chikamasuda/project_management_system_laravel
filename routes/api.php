@@ -35,6 +35,8 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::controller(ClientController::class)->group(function () {
         //顧客検索
         Route::get('/clients/search', 'search');
+        //csvダウンロード
+        Route::get('/clients/download', 'download');
     });
 
     //CRUD機能

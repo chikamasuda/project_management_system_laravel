@@ -14,6 +14,7 @@ use App\UseCase\Client\Show as ShowUseCase;
 use App\UseCase\Client\Update as UpdateuseCase;
 use App\UseCase\Client\Destroy as DestroyuseCase;
 use App\UseCase\Client\Search as SearchuseCase;
+use App\UseCase\Client\Download as DownloaduseCase;
 
 class ClientController extends Controller
 {
@@ -138,6 +139,25 @@ class ClientController extends Controller
         try {
             $clients = $useCase->invoke($request);
             return response()->json(['clients' => $clients], 200);
+        } catch (\Throwable $e) {
+            //失敗した原因をログに残し、フロントにエラーを通知
+            Log::error($e);
+            throw $e;
+        }
+    }
+
+    /**
+     * CSVダウンロード
+     *
+     * @param DownloadUseCase $useCase
+     * @param Request $request
+     * @return void
+     */
+    public function download(DownloadUseCase $useCase, Request $request)
+    {
+        try {
+            $csv_data = $useCase->invoke($request);
+            return response()->make($csv_data['csv'], 200, $csv_data['headers']);
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);
