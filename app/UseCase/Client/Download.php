@@ -70,15 +70,15 @@ class Download
      */
     private static function getDownloadData($lists): array
     {
-        foreach ($lists as $d) {
+        foreach ($lists as $list) {
             //この配列がダウンロードされるデータになる
-            $arrayData['id']         = $d->id;
-            $arrayData['name']       = $d->name;
-            $arrayData['email']      = $d->email;
-            $arrayData['address']    = $d->address;
-            $arrayData['status']     = $d->status;
-            $arrayData['site_url']   = $d->site_url;
-            $arrayData['memo']       = $d->memo;
+            $arrayData['id']         = $list->id;
+            $arrayData['name']       = $list->name;
+            $arrayData['email']      = $list->email;
+            $arrayData['address']    = $list->address;
+            $arrayData['status']     = Client::STATUS[$list->status];
+            $arrayData['site_url']   = $list->site_url;
+            $arrayData['memo']       = $list->memo;
             //上記をまとめてデータ化。
             $data[] = array_values($arrayData);
         }

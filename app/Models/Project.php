@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Project extends Model
 {
@@ -19,7 +20,12 @@ class Project extends Model
         'content',
     ];
 
-    public function clients()
+    /**
+     * 顧客テーブルとのリレーション
+     *
+     * @return BelongsTo
+     */
+    public function clients(): BelongsTo
     {
         return $this->belongsTo(Client::class);
     }

@@ -29,13 +29,30 @@ class Client extends Model
         'memo',
     ];
 
+    /**
+     * 案件テーブルとのリレーション
+     *
+     * @return HasMany
+     */
     public function projects(): HasMany
     {
         return $this->hasMany(Project::class);
     }
 
+    /**
+     * タグテーブルとのリレーション
+     *
+     * @return BelongsToMany
+     */
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
     }
+
+    //ステータス定数
+    const STATUS = [
+        1 => '待機中',
+        2 => '実施中',
+        3 => '終了',
+    ];
 }

@@ -14,6 +14,11 @@ class Tag extends Model
         'name',
     ];
 
+    /**
+     * 顧客テーブルとのリレーション
+     *
+     * @return BelongsToMany
+     */
     public function clients(): BelongsToMany
     {
         return $this->belongsToMany(Client::class);
