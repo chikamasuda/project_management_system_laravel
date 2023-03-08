@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             ClientsTableSeeder::class,
             ProjectsTableSeeder::class,
             TodoListsTableSeeder::class,
+            SalesTableSeeder::class,
         ]);
     }
 }

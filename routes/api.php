@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\SaleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -37,6 +38,12 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/clients/search', 'search');
         //csvダウンロード
         Route::get('/clients/download', 'download');
+    });
+
+    //売上管理
+    Route::controller(SaleController::class)->group(function () {
+        //売上集計・分析
+        Route::get('/sales/analysis', 'analysis');
     });
 
     //CRUD機能
