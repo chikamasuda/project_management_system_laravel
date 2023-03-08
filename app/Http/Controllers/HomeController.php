@@ -2,9 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Project;
-use App\Models\TodoList;
 use App\UseCase\Home\GetUserInformation as GetUserInformationUseCase;
+use Illuminate\Support\Facades\Log;
 
 class HomeController extends Controller
 {
