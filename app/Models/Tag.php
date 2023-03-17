@@ -23,4 +23,14 @@ class Tag extends Model
     {
         return $this->belongsToMany(Client::class);
     }
+
+    /**
+     * 案件テーブルとのリレーション
+     *
+     * @return BelongsToMany
+     */
+    public function projects(): BelongsToMany
+    {
+        return $this->belongsToMany(Client::class);
+    }
 }
