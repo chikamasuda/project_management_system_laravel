@@ -2,21 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
+use App\Models\Project;
 use Illuminate\Http\Request;
-use App\Http\Requests\ClientRequest;
+use App\Http\Requests\ProjectRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\DB;
-use App\UseCase\Client\Index as IndexUseCase;
-use App\UseCase\Client\Store as StoreUseCase;
-use App\UseCase\Client\Show as ShowUseCase;
-use App\UseCase\Client\Update as UpdateuseCase;
-use App\UseCase\Client\Destroy as DestroyuseCase;
-use App\UseCase\Client\Search as SearchuseCase;
-use App\UseCase\Client\Download as DownloaduseCase;
+use App\UseCase\Project\Index as IndexUseCase;
+use App\UseCase\Project\Store as StoreUseCase;
+use App\UseCase\Project\Show as ShowUseCase;
+use App\UseCase\Project\Update as UpdateUseCase;
+use App\UseCase\Project\Destroy as DestroyUseCase;
+use App\UseCase\Project\Search as SearchUseCase;
+use App\UseCase\Project\Download as DownloadUseCase;
 
-class ClientController extends Controller
+class ProjectController extends Controller
 {
     /**
      * ユーザーの顧客情報取得
@@ -27,8 +27,8 @@ class ClientController extends Controller
     public function index(IndexUseCase $useCase): JsonResponse
     {
         try {
-            $clients = $useCase->invoke();
-            return response()->json(['clients' => $clients], 200);
+            $projects = $useCase->invoke();
+            return response()->json(['projects' => $projects], 200);
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);
@@ -37,19 +37,19 @@ class ClientController extends Controller
     }
 
     /**
-     * 顧客情報作成
+     * 案件情報作成
      *
      * @param CreateUseCase $useCase
-     * @param ClientRequest $request
+     * @param ProjectRequest $request
      * @return JsonResponse
      */
-    public function store(StoreUseCase $useCase, ClientRequest $request): JsonResponse
+    public function store(StoreUseCase $useCase, ProjectRequest $request): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $client = $useCase->invoke($request);
+            $project = $useCase->invoke($request);
             DB::commit();
-            return response()->json(['client' => $client['client'], 'tag' => $client['tag']], 201);
+            return response()->json(['client' => $project['project'], 'tag' => $project['tag']], 201);
         } catch (\Throwable $e) {
             // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
             DB::rollback();
@@ -59,17 +59,17 @@ class ClientController extends Controller
     }
 
     /**
-     * ユーザーの顧客詳細情報取得
+     * ユーザーの案件詳細情報取得
      *
      * @param ShowUseCase $useCase
-     * @param Client $client
+     * @param Project $project
      * @return JsonResponse
      */
-    public function show(ShowUseCase $useCase, Client $client): JsonResponse
+    public function show(ShowUseCase $useCase, Project $project): JsonResponse
     {
         try {
-            $client = $useCase->invoke($client);
-            return response()->json(['client' => $client], 200);
+            $project = $useCase->invoke($project);
+            return response()->json(['project' => $project], 200);
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);
@@ -78,19 +78,19 @@ class ClientController extends Controller
     }
 
     /**
-     * 顧客情報更新
+     * 案件情報更新
      *
      * @param UpdateUseCase $useCase
-     * @param ClientRequest $request
-     * @param Client $client
+     * @param projectRequest $request
+     * @param Project $project
      * @return JsonResponse
      */
-    public function update(UpdateUseCase $useCase, ClientRequest $request, Client $client): JsonResponse
+    public function update(UpdateUseCase $useCase, ProjectRequest $request, Project $project): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $update_client = $useCase->invoke($request, $client);
-            if (!$update_client) {
+            $update_project = $useCase->invoke($request, $project);
+            if (!$update_project) {
                 return response()->json(['message' => 'Not Found'], 404);
             }
             DB::commit();
@@ -104,18 +104,18 @@ class ClientController extends Controller
     }
 
     /**
-     * 顧客情報削除
+     * 案件情報削除
      *
-     * @param DestroyuseCase $useCase
-     * @param Client $client
+     * @param DestroyUseCase $useCase
+     * @param Project $project
      * @return JsonResponse
      */
-    public function destroy(DestroyuseCase $useCase, Client $client): JsonResponse
+    public function destroy(DestroyUseCase $useCase, Project $project): JsonResponse
     {
         try {
             DB::beginTransaction();
-            $client = $useCase->invoke($client);
-            if (!$client) {
+            $project = $useCase->invoke($project);
+            if (!$project) {
                 return response()->json(['message' => 'Not Found'], 404);
             }
             DB::commit();
@@ -129,7 +129,7 @@ class ClientController extends Controller
     }
 
     /**
-     * ユーザーの顧客情報検索
+     * ユーザーの案件情報検索
      *
      * @param SearchUseCase $useCase
      * @return JsonResponse
@@ -137,8 +137,8 @@ class ClientController extends Controller
     public function search(SearchUseCase $useCase, Request $request): JsonResponse
     {
         try {
-            $clients = $useCase->invoke($request);
-            return response()->json(['clients' => $clients], 200);
+            $projects = $useCase->invoke($request);
+            return response()->json(['projects' => $projects], 200);
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);

@@ -52,7 +52,7 @@ class Client extends Model
     //ステータス定数
     const STATUS = [
         1 => '待機中',
-        2 => '実施中',
+        2 => '継続中',
         3 => '終了',
     ];
 }

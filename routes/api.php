@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SaleController;
 
 /*
@@ -40,6 +41,14 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/clients/download', 'download');
     });
 
+    //案件管理
+    Route::controller(ProjectController::class)->group(function () {
+        //案件検索
+        Route::get('/projects/search', 'search');
+        //csvダウンロード
+        Route::get('/projects/download', 'download');
+    });
+
     //売上管理
     Route::controller(SaleController::class)->group(function () {
         //売上集計・分析
@@ -48,6 +57,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //CRUD機能
     Route::apiResources([
-        'clients' => ClientController::class,
+        'clients'  => ClientController::class,
+        'projects' => ProjectController::class,
     ]);
 });

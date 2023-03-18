@@ -21,6 +21,7 @@ return new class extends Migration
             $table->date('end_date')->comment('終了日')->nullable();
             $table->text('content')->comment('案件内容')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
