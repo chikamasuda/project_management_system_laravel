@@ -6,6 +6,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SaleController;
+use App\Http\Controllers\TodoListController;
 
 /*
 |--------------------------------------------------------------------------
@@ -59,5 +60,6 @@ Route::group(['middleware' => ['auth:api']], function () {
     Route::apiResources([
         'clients'  => ClientController::class,
         'projects' => ProjectController::class,
+        'todo-lists' => TodoListController::class,
     ]);
 });
