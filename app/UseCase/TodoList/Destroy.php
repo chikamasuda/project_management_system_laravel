@@ -7,7 +7,7 @@ use App\Models\TodoList;
 class Destroy
 {
     /**
-     * Toddリスト削除
+     * Todoリスト削除
      *
      * @param TodoList $todo_list
      * @return integer
