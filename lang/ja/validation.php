@@ -159,7 +159,9 @@ return [
         'password' => 'パスワード',
         'image'    => '画像',
         'status'   => 'ステータス',
-        'tags.*'     => 'タグ',
-        'site_url' => 'サイトURL'
+        'tags.*'   => 'タグ',
+        'site_url' => 'サイトURL',
+        'title'    => 'タイトル',
+        'deadline_date' => '期限'
     ],
 ];

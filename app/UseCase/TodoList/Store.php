@@ -19,7 +19,7 @@ class Store
             'user_id'       => auth()->user()->id,
             "title"         => $request->title,
             "deadline_date" => $request->deadline_date,
-            "status"        => false,
+            "status"        => 0,
         ]);
 
         return $todo;

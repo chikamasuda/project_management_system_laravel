@@ -8,7 +8,7 @@ use App\Http\Requests\TodoListRequest;
 class Update
 {
     /**
-     * 案件情報更新
+     * todoリスト更新
      *
      * @param TodoListRequest $request
      * @param TodoList $todo_list
@@ -19,6 +19,7 @@ class Update
         $update = [
             "title"         => $request->title,
             "deadline_date" => $request->deadline_date,
+            "status"        => $request->status,
         ];
 
         $todo = TodoList::where('id', $todo_list->id)->update($update);

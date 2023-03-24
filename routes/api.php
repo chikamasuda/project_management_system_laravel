@@ -7,6 +7,7 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SaleController;
 use App\Http\Controllers\TodoListController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,6 +30,8 @@ Route::post('/users/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:api']], function () {
     //ユーザー情報取得
     Route::get('/users', [AuthController::class, 'me']);
+    //ユーザー情報取得
+    Route::post('/users/{user}', [UserController::class, 'update']);
     //ホーム用ユーザー情報取得
     Route::get('/home/index', [HomeController::class, 'index']);
     //ログアウト
@@ -58,8 +61,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     //CRUD機能
     Route::apiResources([
-        'clients'  => ClientController::class,
-        'projects' => ProjectController::class,
+        'clients'    => ClientController::class,
+        'projects'   => ProjectController::class,
         'todo-lists' => TodoListController::class,
+        'sales'      => SaleController::class,
     ]);
 });
