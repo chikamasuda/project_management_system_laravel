@@ -39,7 +39,7 @@ class ProjectController extends Controller
     /**
      * 案件情報作成
      *
-     * @param CreateUseCase $useCase
+     * @param StoreUseCase $useCase
      * @param ProjectRequest $request
      * @return JsonResponse
      */
@@ -49,7 +49,7 @@ class ProjectController extends Controller
             DB::beginTransaction();
             $project = $useCase->invoke($request);
             DB::commit();
-            return response()->json(['client' => $project['project'], 'tag' => $project['tag']], 201);
+            return response()->json(['project' => $project['project'], 'tag' => $project['tag']], 201);
         } catch (\Throwable $e) {
             // 失敗したらロールバックし、原因をログに残しフロントにエラーを通知
             DB::rollback();

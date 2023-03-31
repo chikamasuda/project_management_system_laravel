@@ -18,22 +18,22 @@ class Store
      */
     public function invoke(ProjectRequest $request): array
     {
-        //s3にアップして保存
-        if ($request->file('image')) {
-            $image_name = $request->file('image')->getClientOriginalName();
-            $path = Storage::disk('s3')->putFile('', $request->file('image'), 'public');
-            $request->file('image')->storeAs('/', $image_name, 's3');
-        }
-
         $project = Project::create([
             'name'        => $request->name,
             'client_id'   => $request->client_id,
-            "image_url"   => $request->file('image') ? Storage::disk('s3')->url($path) . $image_name : null,
             "status"      => $request->status,
             "start_date"  => $request->start_date,
             "end_date"    => $request->end_date,
             "content"     => $request->content,
         ]);
+
+        //s3にアップして保存
+        if ($request->file('image')) {
+            $image_name = $request->file('image')->getClientOriginalName();
+            $extension = pathinfo($image_name)['extension'];
+            $path = $request->file('image')->storeAs('', 'project-' . $project->id . '.' . $extension, 's3');
+            $project->update(['image_url' => Storage::disk('s3')->url($path)]);
+        }
 
         $tag_array = [];
         $tag = [];
