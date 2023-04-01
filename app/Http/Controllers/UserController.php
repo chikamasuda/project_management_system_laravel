@@ -7,7 +7,7 @@ use App\Http\Requests\UserRequest;
 use App\UseCase\User\Update as UpdateUseCase;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
-
+use Illuminate\Http\JsonResponse;
 
 class UserController extends Controller
 {

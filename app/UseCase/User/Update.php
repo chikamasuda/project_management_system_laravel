@@ -21,14 +21,14 @@ class Update
         //s3にアップして保存
         if ($request->file('image')) {
             $image_name = $request->file('image')->getClientOriginalName();
-            $path = Storage::disk('s3')->putFile('', $request->file('image'), 'public');
-            $request->file('image')->storeAs('/', $image_name, 's3');
+            $extension = pathinfo($image_name)['extension'];
+            $path = $request->file('image')->storeAs('', 'user-' . $user->id . '.' . $extension, 's3');
         }
 
         $update_data = [
             "name"      => $request->name,
             'email'     => $request->email,
-            "image_url" => $request->file('image') ? Storage::disk('s3')->url($path) . $image_name : null,
+            "image_url" => $request->file('image') ? Storage::disk('s3')->url($path) : null,
             "password"  => Hash::make($request->password)
         ];
 

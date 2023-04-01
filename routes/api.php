@@ -30,7 +30,7 @@ Route::post('/users/register', [AuthController::class, 'register']);
 Route::group(['middleware' => ['auth:api']], function () {
     //ユーザー情報取得
     Route::get('/users', [AuthController::class, 'me']);
-    //ユーザー情報取得
+    //ユーザー情報更新
     Route::post('/users/{user}', [UserController::class, 'update']);
     //ホーム用ユーザー情報取得
     Route::get('/home/index', [HomeController::class, 'index']);

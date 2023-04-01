@@ -39,7 +39,7 @@ class ClientController extends Controller
     /**
      * 顧客情報作成
      *
-     * @param CreateUseCase $useCase
+     * @param StoreUseCase $useCase
      * @param ClientRequest $request
      * @return JsonResponse
      */
