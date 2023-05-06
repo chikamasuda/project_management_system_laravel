@@ -16,7 +16,7 @@ class GetUserInformation
     {
         $projects = Project::query()
             ->join('clients', 'projects.client_id', '=', 'clients.id')
-            ->select('projects.name as project_name', 'clients.name as client_name', 'projects.status as status', 'end_date')
+            ->select('projects.name as project_name', 'clients.name as client_name', 'projects.status as status', 'end_date', 'projects.image_url as project_image_url')
             ->where('user_id', auth()->user()->id)
             ->where('projects.status', '!=', config('const.projects.status.end'))
             ->get();

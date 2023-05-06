@@ -26,16 +26,18 @@ Route::post('/users/login', [AuthController::class, 'login']);
 //新規登録
 Route::post('/users/register', [AuthController::class, 'register']);
 
+
 /** 認証後 */
 Route::group(['middleware' => ['auth:api']], function () {
+    //ログアウト
+    Route::post('/users/logout', [AuthController::class, 'logout']);
     //ユーザー情報取得
     Route::get('/users', [AuthController::class, 'me']);
     //ユーザー情報更新
     Route::post('/users/{user}', [UserController::class, 'update']);
     //ホーム用ユーザー情報取得
     Route::get('/home/index', [HomeController::class, 'index']);
-    //ログアウト
-    Route::post('/users/logout', [AuthController::class, 'logout']);
+
 
     //顧客管理
     Route::controller(ClientController::class)->group(function () {
