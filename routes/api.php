@@ -45,6 +45,8 @@ Route::group(['middleware' => ['auth:api']], function () {
         Route::get('/clients/search', 'search');
         //csvダウンロード
         Route::get('/clients/download', 'download');
+        //更新(仮で、後でHTTPメソッドをputにフロント側で置き換え)
+        Route::post('/clients/{client}', 'update');
     });
 
     //案件管理

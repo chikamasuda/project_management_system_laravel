@@ -31,10 +31,10 @@ class ClientRequest extends FormRequest
             'email'    => ['email', Rule::unique('clients', 'email')->ignore($this->client->id ?? null)->where(function ($query) {
                 return $query->whereNull('deleted_at');
             })],
-            'status'   => 'required',
-            'image'    => 'max:1024|mimes:jpg,jpeg,png,gif',
+            'status'   => 'required|numeric',
+            'image'    => 'file|image|max:1024|mimes:jpg,jpeg,png',
             'tags'     => 'array',
-            'tags.*'   => 'max:10',
+            'tags.*'   => 'max:5',
             'site_url' => 'url',
         ];
     }
