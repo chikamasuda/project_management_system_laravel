@@ -51,7 +51,6 @@ class Update
         }
 
         $client = Client::where('id', $client->id)->first();
-        Log::info($client);
         $client->tags()->sync($tag_array);
 
         }
