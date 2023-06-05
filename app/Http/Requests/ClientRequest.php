@@ -34,7 +34,7 @@ class ClientRequest extends FormRequest
             'status'   => 'required|numeric',
             'image'    => 'file|image|max:1024|mimes:jpg,jpeg,png',
             'tags'     => 'array',
-            'tags.*'   => 'max:5',
+            'tags.*'   => 'max:10',
             'site_url' => 'url',
         ];
     }
