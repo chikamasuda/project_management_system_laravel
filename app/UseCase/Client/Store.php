@@ -39,16 +39,18 @@ class Store
         $tag_array = [];
         $tag = [];
 
-        foreach ($request->tags as $tag_name) {
-            if ($tag_name) {
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                array_push($tag_array, $tag->id);
+        if($request->tags) {
+            foreach ($request->tags as $tag_name) {
+                if ($tag_name) {
+                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                    array_push($tag_array, $tag->id);
+                }
             }
-        }
 
-        if (!empty($tag_array)) {
-            $client = Client::where('id', $client->id)->first();
-            $client->tags()->attach($tag_array);
+            if (!empty($tag_array)) {
+                $client = Client::where('id', $client->id)->first();
+                $client->tags()->attach($tag_array);
+            }
         }
 
         return [

@@ -42,7 +42,7 @@ class Update
         $tag_array = [];
         $tag = [];
 
-        if(isset($request->tags)) {
+        if($request->tags) {
             foreach ($request->tags as $tag_name) {
                 if ($tag_name) {
                     $tag = Tag::firstOrCreate(['name' => $tag_name]);
