@@ -48,12 +48,13 @@ class Update
                     $tag = Tag::firstOrCreate(['name' => $tag_name]);
                     array_push($tag_array, $tag->id);
                 }
+            }
+        } else {
+            $tags_array = [];
         }
 
         $client = Client::where('id', $client->id)->first();
         $client->tags()->sync($tag_array);
-
-        }
 
         return $update_client;
     }
