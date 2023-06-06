@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Tag;
 use App\Http\Requests\ClientRequest;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Update
 {
@@ -29,7 +30,7 @@ class Update
             "name"      => $request->name,
             'user_id'   => auth()->user()->id,
             'email'     => $request->email,
-            "image_url" => $request->file('image') ? Storage::disk('s3')->url($path) : null,
+            "image_url" => $request->file('image') ? Storage::disk('s3')->url($path) : $request->image_url,
             "address"   => $request->address,
             "status"    => $request->status,
             "site_url"  => $request->site_url,
@@ -41,11 +42,15 @@ class Update
         $tag_array = [];
         $tag = [];
 
-        foreach ($request->tags as $tag_name) {
-            if ($tag_name) {
-                $tag = Tag::firstOrCreate(['name' => $tag_name]);
-                array_push($tag_array, $tag->id);
+        if($request->tags) {
+            foreach ($request->tags as $tag_name) {
+                if ($tag_name) {
+                    $tag = Tag::firstOrCreate(['name' => $tag_name]);
+                    array_push($tag_array, $tag->id);
+                }
             }
+        } else {
+            $tags_array = [];
         }
 
         $client = Client::where('id', $client->id)->first();
