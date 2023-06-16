@@ -36,14 +36,16 @@ class Analysis
         if ($request->type  === 'sales' && $request->method === 'year') {
             $query->whereBetween('sales_date', [$request->start_date, $request->end_date])
                 ->selectRaw('SUM(amount) AS total_amount, DATE_FORMAT(sales_date, "%Y") as year')
-                ->groupBy('year');
+                ->groupBy('year')
+                ->orderBy('year', 'Asc');
         }
 
         //抽出条件が売上＆月別
         if ($request->type  === 'sales' && $request->method === 'month') {
             $query->whereBetween('sales_date', [$request->start_date, $request->end_date])
                 ->selectRaw('SUM(amount) AS total_amount, DATE_FORMAT(sales_date, "%Y%m") as month')
-                ->groupBy('month');
+                ->groupBy('month')
+                ->orderBy('month', 'Asc');
         }
 
         $analysis = $query->get();
