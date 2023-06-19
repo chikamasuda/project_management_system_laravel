@@ -24,11 +24,13 @@ class UsersTableSeeder extends Seeder
                 'name'      => 'テストユーザー２',
                 'email'     => 'testuser02@gmail.com',
                 'password'  => Hash::make('password'),
+                'image_url' => ''
             ],
             [
                 'name'      => 'テストユーザー３',
                 'email'     => 'testuser03@gmail.com',
                 'password'  => Hash::make('password'),
+                'image_url' => ''
             ],
         ]);
     }
