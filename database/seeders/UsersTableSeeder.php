@@ -18,6 +18,7 @@ class UsersTableSeeder extends Seeder
                 'name'      => 'テストユーザー１',
                 'email'     => 'testuser01@gmail.com',
                 'password'  => Hash::make('password'),
+                'image_url' => 'https://masudabucket2.s3.ap-northeast-1.amazonaws.com/user-1.jpg',
             ],
             [
                 'name'      => 'テストユーザー２',
