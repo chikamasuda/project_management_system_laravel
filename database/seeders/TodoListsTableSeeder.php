@@ -17,37 +17,37 @@ class TodoListsTableSeeder extends Seeder
                 'user_id'       => '1',
                 'title'         => 'タスク１',
                 'status'        =>  false,
-                'deadline_date' => '2023-02-20'
+                'deadline_date' => '2023-08-20'
             ],
             [
                 'user_id'       => '1',
                 'title'         => 'タスク２',
                 'status'        =>  false,
-                'deadline_date' => '2023-03-31'
+                'deadline_date' => '2023-08-31'
             ],
             [
                 'user_id'       => '1',
                 'title'         => 'タスク３',
                 'status'        =>  false,
-                'deadline_date' => '2023-03-15'
+                'deadline_date' => '2023-08-15'
             ],
             [
                 'user_id'       => '1',
                 'title'         => 'タスク４',
                 'status'        =>  true,
-                'deadline_date' => '2023-03-03'
+                'deadline_date' => '2023-08-03'
             ],
             [
                 'user_id'       => '2',
                 'title'         => 'タスク５',
                 'status'        =>  false,
-                'deadline_date' => '2023-02-20'
+                'deadline_date' => '2023-08-20'
             ],
             [
                 'user_id'       => '2',
                 'title'         => 'タスク６',
                 'status'        =>  false,
-                'deadline_date' => '2023-03-31'
+                'deadline_date' => '2023-08-31'
             ],
             [
                 'user_id'       => '2',

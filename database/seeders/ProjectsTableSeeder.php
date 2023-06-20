@@ -27,7 +27,7 @@ class ProjectsTableSeeder extends Seeder
                 'status'     => '2',
                 'name'       => 'プロジェクト２',
                 'start_date' => '2020-03-01',
-                'end_date'   => '2023-03-31',
+                'end_date'   => '2023-08-31',
                 'image_url'  => 'https://picsum.photos/150/150?random',
                 'content'    => 'クライアントのテストデータ２',
             ],
