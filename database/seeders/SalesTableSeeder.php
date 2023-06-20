@@ -480,8 +480,8 @@ class SalesTableSeeder extends Seeder
                 'content'                 => 'プロジェクト２の月額報酬',
                 'amount'                  => '400000',
                 'sales_date'              => '20221231',
-                'planed_deposit_date'    => '20230115',
-                'deposit_date'            => '20220115',
+                'planed_deposit_date'     => '20230115',
+                'deposit_date'            => '20230115',
             ],
             [
                 'id'                      => '48',
@@ -490,8 +490,8 @@ class SalesTableSeeder extends Seeder
                 'content'                 => 'プロジェクト２の月額報酬',
                 'amount'                  => '400000',
                 'sales_date'              => '20230131',
-                'planed_deposit_date'    =>  '20230215',
-                'deposit_date'            => '20220215',
+                'planed_deposit_date'     => '20230215',
+                'deposit_date'            => '20230215',
             ],
             [
                 'id'                      => '49',
@@ -501,7 +501,7 @@ class SalesTableSeeder extends Seeder
                 'amount'                  => '400000',
                 'sales_date'              => '20230228',
                 'planed_deposit_date'     => '20230315',
-                'deposit_date'            => '20220315',
+                'deposit_date'            => '20230315',
             ],
             [
                 'id'                      => '50',
@@ -511,7 +511,7 @@ class SalesTableSeeder extends Seeder
                 'amount'                  => '500000',
                 'sales_date'              => '20230331',
                 'planed_deposit_date'     => '20230415',
-                'deposit_date'            => '20220415',
+                'deposit_date'            => '20230415',
             ],
             [
                 'id'                      => '51',
@@ -521,7 +521,7 @@ class SalesTableSeeder extends Seeder
                 'amount'                  => '500000',
                 'sales_date'              => '20230430',
                 'planed_deposit_date'     => '20230515',
-                'deposit_date'            => '20220515',
+                'deposit_date'            => '20230515',
             ],
             [
                 'id'                      => '52',
@@ -531,7 +531,7 @@ class SalesTableSeeder extends Seeder
                 'amount'                  => '500000',
                 'sales_date'              => '20230530',
                 'planed_deposit_date'     => '20230615',
-                'deposit_date'            => '20220615',
+                'deposit_date'            => '20230615',
             ],
         ]);
     }
