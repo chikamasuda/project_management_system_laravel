@@ -19,14 +19,13 @@ class AuthController extends Controller
      * ログイン
      *
      * @param LoginRequest $request
-     * @param LoginUseCase $useCase
      * @return JsonResponse
      */
     public function login(LoginRequest $request, LoginUseCase $useCase): JsonResponse
     {
         try {
-            $token = $useCase->invoke($request);
-            return response()->json(['token' => $token], 200);
+            $response = $useCase->invoke($request);
+            return $response;
         } catch (\Throwable $e) {
             //失敗した原因をログに残し、フロントにエラーを通知
             Log::error($e);

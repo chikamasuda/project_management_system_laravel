@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Http\JsonResponse;
+
 
 class Login
 {
@@ -15,9 +18,9 @@ class Login
      * ログイン処理
      *
      * @param Request $request
-     * @return string
+     * @return JsonResponse
      */
-    public function invoke(LoginRequest $request): string
+    public function invoke(LoginRequest $request): JsonResponse
     {
         //ユーザー情報取得
         $user = User::where('email', $request->email)->first();
@@ -40,6 +43,6 @@ class Login
         $token_response = Route::prepareResponse($token_request, app()->handle($token_request));
         $token = $token_response->content();
 
-        return $token;
+        return response()->json(['token' => $token], 200);
     }
 }
