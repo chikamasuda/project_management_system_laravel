@@ -29,7 +29,7 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testLogin()
+    public function testLogin(): void
     {
         $user = User::first();
 
@@ -46,11 +46,11 @@ class LoginTest extends TestCase
     }
 
     /**
-     * テスト失敗
+     * テスト失敗(Eメールとパスワード不一致)
      *
      * @return void
      */
-    public function testFailedLogin()
+    public function testFailedLogin(): void
     {
         //正しくないユーザー情報
         $user_data = [
@@ -70,7 +70,7 @@ class LoginTest extends TestCase
      *
      * @return void
      */
-    public function testFailedLoginValidation()
+    public function testFailedLoginValidation(): void
     {
         //空のユーザー情報
         $user_data = [
