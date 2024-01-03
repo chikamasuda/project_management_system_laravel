@@ -41,7 +41,8 @@ class Login
         ];
         $token_request = Request::create('/oauth/token', 'POST', $data);
         $token_response = Route::prepareResponse($token_request, app()->handle($token_request));
-        $token = $token_response->content();
+        $token = json_decode($token_response->content(), true);
+        $token = $token['access_token'];
 
         return response()->json(['token' => $token], 200);
     }

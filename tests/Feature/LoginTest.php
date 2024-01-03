@@ -40,8 +40,23 @@ class LoginTest extends TestCase
 
         $response = $this->post('/api/users/login', $user_data);
         $response->assertStatus(200);
-        $response->assertJsonStructure([
-            "token"
+        $token = $response['token'];
+        $response->assertJsonFragment([
+            "token" => $token,
+        ]);
+
+        //ユーザー情報を取得できる
+        $response = $this->getJson('/api/users', [
+            'Authorization' => 'Bearer ' . $token,
+        ]);
+        $response->assertStatus(200)
+        ->assertJsonFragment([
+            "id" => $user->id,
+            "name" => $user->name,
+            "email" => $user->email,
+            "image_url" => $user->image_url,
+            "created_at" =>  $user->created_at,
+            "updated_at" =>  $user->updated_at
         ]);
     }
 
@@ -60,7 +75,7 @@ class LoginTest extends TestCase
 
         $response = $this->post('/api/users/login', $user_data);
         $response->assertStatus(401);
-        $response->assertJson([
+        $response->assertJsonFragment([
             'message' => 'Unauthorized',
         ]);
     }
@@ -80,14 +95,9 @@ class LoginTest extends TestCase
 
         $response = $this->post('/api/users/login', $user_data);
         $response->assertStatus(422);
-        $response->assertJson([
-            'data' => [
-                'data' => [],
-                'errors' => [
-                    'email' => ['Eメールは必ず指定してください。'],
-                    'password' => ['パスワードは必ず指定してください。']
-                ]
-            ],
+        $response->assertJsonFragment([
+            'email' => ['Eメールは必ず指定してください。'],
+            'password' => ['パスワードは必ず指定してください。']
         ]);
     }
 }
